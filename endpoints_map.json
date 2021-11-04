@@ -1,0 +1,10 @@
+{
+  "create_user": {
+    "method": "POST",
+    "endpoint": "/users"
+  },
+  "get_user": {
+    "method": "GET",
+    "endpoint": "/users/{user_id}"
+  }
+}
