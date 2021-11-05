@@ -11,7 +11,6 @@ class UserHandler(BaseRequestsClass):
     update_user_dict = {"method": "PUT", "endpoint": "/users/{user_id}"}
     delete_user_dict = {"method": "DELETE", "endpoint": "/users/{user_id}"}
 
-
     def create_user(self, email, name="tester testowy", gender="male", status="active"):
         body = {"name": name, "gender": gender, "email": email, "status": status}
         res = self.send_request(self.create_user_dict["method"], self.create_user_dict["endpoint"], body)
@@ -22,12 +21,10 @@ class UserHandler(BaseRequestsClass):
         unique_email = f"tester.testowy+{int(time())}@gmail.com"
         return self.create_user(unique_email)
 
-    def get_user_by_id(self, id=None):
-        if not id:
-            id = self.last_created_user_id
-        self.get_user_dict["endpoint"] = self.get_user_dict["endpoint"].format(user_id=id)
-        print(self.get_user_dict, "           ", id)
-        res = self.send_request(self.get_user_dict["method"], self.get_user_dict["endpoint"].format(user_id=id))
+    def get_user_by_id(self, user_id=None):
+        if not user_id:
+            user_id = self.last_created_user_id
+        res = self.send_request(self.get_user_dict["method"], self.get_user_dict["endpoint"].format(user_id=user_id))
         return res.json(), res.status_code
 
     def update_user(self, user_id, name=None, email=None, status=None):
@@ -38,10 +35,10 @@ class UserHandler(BaseRequestsClass):
             body["email"] = email
         if status:
             body["status"] = status
-        res = self.send_request(self.get_user_dict["method"], self.get_user_dict["endpoint"].format(user_id=id), body)
+        res = self.send_request(self.update_user_dict["method"], self.update_user_dict["endpoint"].format(user_id=user_id), body)
 
         return res.json(), res.status_code
 
     def delete_user(self, user_id):
-        res = self.send_request(self.get_user_dict["method"], self.get_user_dict["endpoint"].format(user_id=id))
+        res = self.send_request(self.delete_user_dict["method"], self.delete_user_dict["endpoint"].format(user_id=user_id))
         return res.status_code
