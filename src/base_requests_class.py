@@ -2,6 +2,7 @@ from os import environ
 import requests
 import json
 
+
 class BaseRequestsClass:
 
     base_url = "https://gorest.co.in/public/v1"
@@ -11,12 +12,10 @@ class BaseRequestsClass:
         self.auth_headers = {"Authorization": f"Bearer {token}"}
 
     def send_request(self, method, endpoint, body=None):
-        print(endpoint)
         return requests.request(method.upper(), self.base_url + endpoint, headers=self.auth_headers, json=body)
 
-
-
-    def __read_endpoint_map(self):
+    @staticmethod
+    def read_endpoint_map():
         with open("../endpoints_map.json") as file:
             endpoint_map = json.load(file)
         return endpoint_map
