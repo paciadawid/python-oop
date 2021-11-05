@@ -1,9 +1,9 @@
 from time import time
+
 from src.base_requests_class import BaseRequestsClass
 
 
 class UserHandler(BaseRequestsClass):
-
     __last_created_user_id = None
     __create_user_dict = {"method": "POST", "endpoint": "/users"}
     __get_user_dict = {"method": "GET", "endpoint": "/users/{user_id}"}
@@ -23,23 +23,22 @@ class UserHandler(BaseRequestsClass):
     def get_user_by_id(self, user_id=None):
         if not user_id:
             user_id = self.__last_created_user_id
-        res = self.send_request(self.__get_user_dict["method"], self.__get_user_dict["endpoint"].format(user_id=user_id))
+        res = self.send_request(self.__get_user_dict["method"],
+                                self.__get_user_dict["endpoint"].format(user_id=user_id))
         return res.json(), res.status_code
 
-    def update_user(self, user_id, name=None, email=None, status=None):
+    def update_user(self, user_id, **kwargs):
         body = {}
-        if name:
-            body["name"] = name
-        if email:
-            body["email"] = email
-        if status:
-            body["status"] = status
-        res = self.send_request(self.__update_user_dict["method"], self.__update_user_dict["endpoint"].format(user_id=user_id), body)
+        for key, value in kwargs.items():
+            body[key] = value
+        res = self.send_request(self.__update_user_dict["method"],
+                                self.__update_user_dict["endpoint"].format(user_id=user_id), body)
 
         return res.json(), res.status_code
 
     def delete_user(self, user_id):
-        res = self.send_request(self.__delete_user_dict["method"], self.__delete_user_dict["endpoint"].format(user_id=user_id))
+        res = self.send_request(self.__delete_user_dict["method"],
+                                self.__delete_user_dict["endpoint"].format(user_id=user_id))
         return res.status_code
 
     @property

@@ -1,10 +1,10 @@
-from os import environ
-import requests
 import json
+from os import environ
+
+import requests
 
 
 class BaseRequestsClass:
-
     base_url = "https://gorest.co.in/public/v1"
 
     def __init__(self, auth_token=None):

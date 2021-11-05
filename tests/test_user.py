@@ -1,5 +1,5 @@
 from src.user_handler import UserHandler
-from time import sleep
+
 
 class TestUser:
     user_handler = UserHandler()
@@ -13,7 +13,7 @@ class TestUser:
 
     def test_update_user(self):
         _, _, user_id = self.user_handler.create_unique_user()
-        body, status_code = self.user_handler.update_user(user_id, "Nietester Nietestowy")
+        body, status_code = self.user_handler.update_user(user_id, name="Nietester Nietestowy")
         assert status_code == 200, body
         assert body["data"]["id"] == user_id, body
         assert body["data"]["name"] == "Nietester Nietestowy", body
